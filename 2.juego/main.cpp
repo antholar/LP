@@ -78,6 +78,50 @@ void movimiento(vector< vector<int> > & data,int x,int y){
     data = tmp;
 }
 
+// despues de eliminar acomoda los datos, haciendolos bajar y mover a la izquierda
+void ordenar(vector< vector<int> > & data){
+    bool cambios = false;
+    // bajar datos
+    for(int i = 0;i<data.size()-1;){
+        cambios = false;
+        for(int j = 0;j<data[i].size();j++){
+            if(data[i][j] != 0 && data[i+1][j] == 0){
+                cambios = true;
+                data[i+1][j] = data[i][j];
+                data[i][j] = 0;
+            }
+        }
+        if(cambios == true) i=i-1;
+        else i++;
+    }
+
+    // acomodar a la izquierda
+    bool recorrerIzq =true;
+    for(int j = 0;j<data[0].size();){
+        recorrerIzq = true;
+        for(int i = 0;i<data.size();i++){
+            if (data[i][j] != 0) {
+                recorrerIzq = false;
+                break;
+            }
+        }
+        cout << j << " " << recorrerIzq << " " << data[0].size()-1<< endl;
+        if(recorrerIzq == true && j != data[0].size()-1){
+            for(int k = j+1;k<data[0].size();k++){
+                for(int l = 0;l<data.size();l++){
+                    data[l][k-1] = data[l][k];
+                    data[l][k] = 0;
+                }
+            }
+            j++;
+        }
+        else j++;
+    }
+
+
+
+}
+
 int main()
 {
     ifstream Ar("entrada.txt");
@@ -105,10 +149,10 @@ int main()
             cout << j << "	";
         }
         cout << endl;
-        cin >> x >> y;
+        cin >> y >> x;
 
         movimiento(data,x,y);
-
+        ordenar(data);
         //system("cls");
     }
 

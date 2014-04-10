@@ -118,6 +118,19 @@ void ordenar(vector< vector<int> > & data){
         else j++;
     }
 
+    // bajar datos
+    for(int i = 0;i<data.size()-1;){
+        cambios = false;
+        for(int j = 0;j<data[i].size();j++){
+            if(data[i][j] != 0 && data[i+1][j] == 0){
+                cambios = true;
+                data[i+1][j] = data[i][j];
+                data[i][j] = 0;
+            }
+        }
+        if(cambios == true) i=i-1;
+        else i++;
+    }
 
 
 }

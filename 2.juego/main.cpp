@@ -70,7 +70,7 @@ void movimiento(vector< vector<int> > & data,int x,int y){
     for(int i = data.size()-1;i>=0;i--)
         tmp.push_back(data[i]);
     data = tmp;
-    cout << data[y][x] << endl;
+    //cout << data[y][x] << endl;
     borrar(data,data[y][x],y,x,'c');
     tmp.clear();
     for(int i = data.size()-1;i>=0;i--)
@@ -105,7 +105,7 @@ void ordenar(vector< vector<int> > & data){
                 break;
             }
         }
-        cout << j << " " << recorrerIzq << " " << data[0].size()-1<< endl;
+        //cout << j << " " << recorrerIzq << " " << data[0].size()-1<< endl;
         if(recorrerIzq == true && j != data[0].size()-1){
             for(int k = j+1;k<data[0].size();k++){
                 for(int l = 0;l<data.size();l++){
@@ -166,6 +166,7 @@ int main()
 
         movimiento(data,x,y);
         ordenar(data);
+        cout << endl;
         //system("cls");
     }
 

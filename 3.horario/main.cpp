@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
+#include <math.h>
 
 using namespace std;
 
@@ -76,7 +77,7 @@ public:
     }
 
     void print(){
-        cout << dia << "	"<< inicio << "  " << fin << endl;
+        cout << dia << " "<< inicio << " " << fin << endl;
     }
 
     // comprueba si en este horario la persona x ya se encuentra en asistencia
@@ -136,7 +137,7 @@ void calcularReunion(vector<string> x,vector<tiempoF> data){
 
     // calendario guarda primero los dias y luego en ese dia los horarios disponibles de todas las personas
     // si en un horario pueden hacer la reunion dos personas, modifica el calendario a la hora que pueden asistir los dos y guardamos tambien
-    // el nombre de la persona que puede asistir. 
+    // el nombre de la persona que puede asistir.
     map<string, vector<tiempoF *> > calendario;
     bool cruce = false;
     tiempoF * tmp1;
@@ -144,7 +145,7 @@ void calcularReunion(vector<string> x,vector<tiempoF> data){
     for(int i = 0;i<posibilidad.size();i++){
         cruce = false;
         tmp1 = &posibilidad[i];
-        
+
         // analisis de los cruces
         for(int j = 0;j<calendario[posibilidad[i].dia ].size();j++){
             if(!calendario[posibilidad[i].dia][j]->buscarReunion(posibilidad[i].nombre)){
@@ -176,16 +177,17 @@ void calcularReunion(vector<string> x,vector<tiempoF> data){
             calendario[posibilidad[i].dia].push_back(&posibilidad[i]);
     }
 
-    // se limpia el calendario y se guardan solo los horarios en los que las personas pueden estar 
+    // se limpia el calendario y se guardan solo los horarios en los que las personas pueden estar
     calendario.clear();
     for(int i = 0;i<posibilidad.size();i++)
-        if(posibilidad[i].reunion.size() == 2 && posibilidad[i].fin - posibilidad[i].inicio >= tiempoReunion )
+        if(posibilidad[i].reunion.size() == 2 && ((float(int((posibilidad[i].fin - posibilidad[i].inicio)*100.0+.5))/100.0) >= tiempoReunion) || (convertirHora(float(int((posibilidad[i].fin - posibilidad[i].inicio)*100.0+.5))/100.0) == convertirHora(tiempoReunion)) ){
             calendario[posibilidad[i].dia].push_back(&posibilidad[i]);
+        }
 
     for (std::map<string, vector<tiempoF *> >::iterator it=calendario.begin(); it!=calendario.end(); it++){
-        cout << it->first << "  ";
+        cout << it->first << " ";
         for(int i = 0;i<it->second.size();i++)
-            cout << convertirHora(it->second[i]->inicio)<<"-"<<convertirHora(it->second[i]->fin) << "  ";
+            cout << convertirHora(it->second[i]->inicio)<<"-"<<convertirHora(it->second[i]->fin) << " ";
         cout << endl;
     }
 
@@ -196,7 +198,7 @@ void calcularReunion(vector<string> x,vector<tiempoF> data){
 int main()
 {
     // entrada de datos
-    string reunion = "00:45 a b";
+    string reunion = "00:10 a b";
     vector<string> horarios;
     horarios.push_back("a");
     horarios.push_back("b");
